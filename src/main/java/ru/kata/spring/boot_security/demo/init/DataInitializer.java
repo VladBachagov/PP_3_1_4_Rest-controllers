@@ -40,6 +40,10 @@ public class DataInitializer implements CommandLineRunner {
             User admin = new User();
             admin.setUsername("admin");
             admin.setPassword(passwordEncoder.encode("admin"));
+            admin.setFirstname("Admin");
+            admin.setLastname("Adminov");
+            admin.setAge(30);
+            admin.setEmail("admin@example.com");
             admin.setRoles(Set.of(adminRole, userRole));
             userRepository.save(admin);
         }
@@ -49,6 +53,10 @@ public class DataInitializer implements CommandLineRunner {
             User user = new User();
             user.setUsername("user");
             user.setPassword(passwordEncoder.encode("user"));
+            user.setFirstname("User");
+            user.setLastname("Userov");
+            user.setAge(25);
+            user.setEmail("user@example.com");
             user.setRoles(Set.of(userRole));
             userRepository.save(user);
         }

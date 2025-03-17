@@ -36,9 +36,8 @@ public class DataInitializer implements CommandLineRunner {
         });
 
         // Проверяем, существует ли администратор
-        if (userRepository.findByUsername("admin").isEmpty()) {
+        if (userRepository.findByEmail("admin@example.com").isEmpty()) {
             User admin = new User();
-            admin.setUsername("admin");
             admin.setPassword(passwordEncoder.encode("admin"));
             admin.setFirstname("Admin");
             admin.setLastname("Adminov");
@@ -49,9 +48,8 @@ public class DataInitializer implements CommandLineRunner {
         }
 
         // Проверяем, существует ли обычный пользователь
-        if (userRepository.findByUsername("user").isEmpty()) {
+        if (userRepository.findByEmail("user@example.com").isEmpty()) {
             User user = new User();
-            user.setUsername("user");
             user.setPassword(passwordEncoder.encode("user"));
             user.setFirstname("User");
             user.setLastname("Userov");

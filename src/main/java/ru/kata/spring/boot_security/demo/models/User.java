@@ -9,18 +9,19 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;
     private String password;
 
     private String firstname;
     private String lastname;
     private int age;
+
+    @Column(unique = true)
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -40,12 +41,9 @@ public class User implements UserDetails {
         this.id = id;
     }
 
+    @Override
     public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+        return email; // Возвращаем email вместо username
     }
 
     public String getPassword() {
@@ -96,7 +94,6 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    // Реализация методов UserDetails
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;

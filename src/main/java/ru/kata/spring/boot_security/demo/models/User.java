@@ -19,10 +19,11 @@ import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Max;
-import java.util.Collection;
-import java.util.HashSet;
+import javax.validation.constraints.Email;
+import javax.persistence.CascadeType;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
+import java.util.Collection;
 
 @Entity
 @Table(name = "users")
@@ -50,19 +51,16 @@ public class User implements UserDetails {
     private int age;
 
     @NotEmpty(message = "Email cannot be empty")
-    @Size(min = 2, max = 30, message = "Email must be between 2 and 30 characters")
-    @Column(unique = true)
+    @Email
+    @Column(unique = true, nullable = false)
     private String email;
 
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "users_roles",
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles = new HashSet<>();
-
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> roles;
 
     // Геттеры и сеттеры
     public Long getId() {
@@ -120,11 +118,12 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public Set<Role> getRoles() {
+
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 

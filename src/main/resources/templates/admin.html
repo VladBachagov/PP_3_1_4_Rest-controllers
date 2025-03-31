@@ -223,6 +223,44 @@
             </div>
         </div>
     </div>
+    <div class="modal fade delete-modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete user</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="delete-form">
+                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center">
+                            <h6 class="card-title" style="margin: 5px 0; text-align: center">ID</h6>
+                            <input type="text" name="id" disabled class="form-control" placeholder="ID">
+
+                            <h6 class="card-title" style="margin: 5px 0; text-align: center">First Name</h6>
+                            <input type="text" name="firstname" disabled class="form-control" placeholder="First Name">
+
+                            <h6 class="card-title" style="margin: 5px 0; text-align: center">Last Name</h6>
+                            <input type="text" name="lastname" disabled class="form-control" placeholder="Last Name">
+
+                            <h6 class="card-title" style="margin: 5px 0; text-align: center">Age</h6>
+                            <input type="text" name="age" disabled class="form-control" placeholder="Age">
+
+                            <h6 class="card-title" style="margin: 5px 0; text-align: center">Email</h6>
+                            <input type="text" name="email" disabled class="form-control" placeholder="Email">
+
+                            <h6 class="card-title" style="margin: 5px 0; text-align: center">Roles</h6>
+                            <select multiple class="form-control" size="2" name="roles" disabled>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" id="confirm-delete-btn">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js"

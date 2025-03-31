@@ -37,16 +37,12 @@ public class AdminRestController {
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.findAll();
-        return users != null && !users.isEmpty()
-                ? new ResponseEntity<>(userService.findAll(), HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return ResponseEntity.ok(userService.findAll());
     }
 
     @GetMapping("/users/{id}")
     public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
-        User user = userService.findById(id);
-        return user != null ? new ResponseEntity<>(user, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return ResponseEntity.ok(userService.findById(id));
     }
 
     @GetMapping("/roles")

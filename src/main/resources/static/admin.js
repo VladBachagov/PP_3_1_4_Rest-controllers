@@ -67,21 +67,57 @@ function getAllUsers() {
 }
 
 function deleteUser(id) {
-    if (confirm("Are you sure you want to delete this user?")) {
-        fetch(`${URL}/${id}`, {method: 'DELETE'})
-            .then(response => {
-                if (response.ok) {
-                    showSuccessAlert("User deleted successfully");
-                    getAllUsers();
-                } else {
-                    throw new Error("Error deleting user");
-                }
-            })
-            .catch(err => {
-                console.error("Error:", err);
-                showErrorAlert(err.message || "Error deleting user");
+    // Получаем данные пользователя
+    fetch(`${URL}/${id}`)
+        .then(response => response.json())
+        .then(user => {
+
+            const deleteForm = document.getElementById('delete-form');
+
+            deleteForm.querySelector('[name="id"]').value = user.id;
+            deleteForm.querySelector('[name="firstname"]').value = user.firstname;
+            deleteForm.querySelector('[name="lastname"]').value = user.lastname;
+            deleteForm.querySelector('[name="age"]').value = user.age;
+            deleteForm.querySelector('[name="email"]').value = user.email;
+
+            const rolesSelect = deleteForm.querySelector('[name="roles"]');
+            rolesSelect.innerHTML = '';
+            user.roles.forEach(role => {
+                const option = document.createElement('option');
+                option.value = role.id;
+                option.textContent = role.name.replace('ROLE_', '');
+                rolesSelect.appendChild(option);
             });
-    }
+            const deleteModal = new bootstrap.Modal(document.querySelector('.delete-modal'));
+            deleteModal.show();
+            document.getElementById('confirm-delete-btn').onclick = function () {
+                fetch(`${URL}/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            showSuccessAlert("User deleted successfully");
+                            getAllUsers(); // Обновляем таблицу
+                        } else {
+                            throw new Error("Error deleting user");
+                        }
+                    })
+                    .catch(err => {
+                        console.error("Error:", err);
+                        showErrorAlert(err.message || "Error deleting user");
+                    })
+                    .finally(() => {
+                        deleteModal.hide();
+                    });
+            };
+        })
+        .catch(err => {
+            console.error("Error loading user data:", err);
+            showErrorAlert("Error loading user data");
+        });
 }
 
 function showEditModal(id) {
